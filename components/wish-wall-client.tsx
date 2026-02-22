@@ -8,6 +8,7 @@ import { hasReleasedAnimationPlayedAtom, userIdAtom, wishCountAtom } from "@/lib
 import { getLocalWishCount, getOrCreateWishUserId, setLocalWishCount } from "@/lib/user-id";
 import type { Wish } from "@/lib/types";
 import { CountdownBanner } from "@/components/countdown-banner";
+import { FestiveDecor } from "@/components/festive-decor";
 import { WishCard } from "@/components/wish-card";
 import { WishFormModal } from "@/components/wish-form-modal";
 
@@ -131,7 +132,8 @@ export function WishWallClient() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
+    <main className="relative z-20 mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
+      <FestiveDecor />
       <header className="mb-6 space-y-4">
         <h1 className="font-display text-3xl text-yellow-100 drop-shadow md:text-5xl">2026 除夕许愿墙</h1>
         <CountdownBanner onReleaseTimeReached={triggerReleaseAnimation} />

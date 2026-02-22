@@ -141,21 +141,30 @@ function getDynamoRepository(): WishRepository {
     },
 
     async releaseAll() {
-      const all = await this.listActive(200);
-      await Promise.all(
-        all.wishes.map((wish) =>
-          docClient.send(
-            new UpdateCommand({
-              TableName: tableName,
-              Key: { wishId: wish.wishId },
-              UpdateExpression: "SET #status = :released",
-              ExpressionAttributeNames: { "#status": "status" },
-              ExpressionAttributeValues: { ":released": "released" }
-            })
+      let total = 0;
+      let nextToken: string | undefined;
+
+      do {
+        const page = await this.listActive(200, nextToken);
+        await Promise.all(
+          page.wishes.map((wish) =>
+            docClient.send(
+              new UpdateCommand({
+                TableName: tableName,
+                Key: { wishId: wish.wishId },
+                UpdateExpression: "SET #status = :released",
+                ExpressionAttributeNames: { "#status": "status" },
+                ExpressionAttributeValues: { ":released": "released" }
+              })
+            )
           )
-        )
-      );
-      return all.wishes.length;
+        );
+
+        total += page.wishes.length;
+        nextToken = page.nextToken ?? undefined;
+      } while (nextToken);
+
+      return total;
     }
   };
 }
