@@ -9,6 +9,7 @@ import { getLocalWishCount, getOrCreateWishUserId, setLocalWishCount } from "@/l
 import type { Wish } from "@/lib/types";
 import { CountdownBanner } from "@/components/countdown-banner";
 import { FestiveDecor } from "@/components/festive-decor";
+import { ReleaseOverlay } from "@/components/release-overlay";
 import { WishCard } from "@/components/wish-card";
 import { WishFormModal } from "@/components/wish-form-modal";
 
@@ -136,11 +137,14 @@ export function WishWallClient() {
       <FestiveDecor />
       <header className="mb-6 space-y-4">
         <h1 className="font-display text-3xl text-yellow-100 drop-shadow md:text-5xl">2026 除夕许愿墙</h1>
+        <p className="text-sm text-yellow-100/90 md:text-base">写下愿望，等待北京时间 2026-02-17 00:00 一起放飞</p>
         <CountdownBanner onReleaseTimeReached={triggerReleaseAnimation} />
       </header>
 
       {blessing ? (
-        <p className="mb-4 rounded-xl bg-yellow-300/90 p-4 text-center text-lg font-semibold text-red-900">{blessing}</p>
+        <p className="mb-4 rounded-xl border border-yellow-200 bg-yellow-100/95 p-4 text-center text-lg font-semibold text-red-900 shadow-xl">
+          {blessing}
+        </p>
       ) : null}
 
       {error ? <p className="mb-4 rounded-lg bg-red-100 p-3 text-red-700">{error}</p> : null}
@@ -158,7 +162,7 @@ export function WishWallClient() {
       <button
         type="button"
         onClick={() => setFormOpen(true)}
-        className="fixed bottom-6 right-6 z-40 h-16 min-w-16 rounded-2xl border-2 border-yellow-400 bg-red-700 px-4 text-sm font-semibold text-yellow-100 shadow-xl"
+        className="fixed bottom-6 right-6 z-40 h-16 min-w-16 rounded-2xl border-2 border-yellow-300 bg-gradient-to-b from-red-500 to-red-800 px-4 text-sm font-semibold text-yellow-100 shadow-[0_10px_30px_rgba(90,14,14,0.5)]"
         aria-label="写愿望"
       >
         红包写愿望
@@ -174,6 +178,8 @@ export function WishWallClient() {
       {toast ? (
         <p className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-lg bg-black/80 px-4 py-2 text-sm text-white">{toast}</p>
       ) : null}
+
+      {released ? <ReleaseOverlay /> : null}
     </main>
   );
 }

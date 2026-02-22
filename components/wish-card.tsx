@@ -18,7 +18,7 @@ type Props = {
 export function WishCard({ wish, released }: Props) {
   return (
     <motion.article
-      className="mb-4 break-inside-avoid rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] p-4 shadow-card"
+      className="relative mb-4 break-inside-avoid rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] p-4 shadow-card"
       initial={{ opacity: 0, y: 12, rotate: (wish.createdAt % 7) - 3 }}
       animate={
         released
@@ -27,6 +27,9 @@ export function WishCard({ wish, released }: Props) {
       }
       transition={{ duration: released ? 2.8 : 0.25, ease: "easeOut" }}
     >
+      <span className="absolute -top-2 left-4 inline-block rounded bg-red-200/90 px-2 py-0.5 text-[10px] text-red-700 shadow-sm">
+        福
+      </span>
       <header className="flex items-start justify-between gap-2">
         <strong className="text-base text-red-900">{wish.nickname}</strong>
         <span aria-label="性别" className="text-lg text-red-700">
